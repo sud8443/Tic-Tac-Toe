@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:id="@+id/newGame"
+            android:title="New Game" />
+
+        <item android:id="@+id/boardSize3"
+            android:title="Board Size 3"/>
+
+        <item android:id="@+id/boardSize4"
+            android:title="Board Size 4"/>
+
+        <item android:id="@+id/boardSize5"
+            android:title="Board Size 5"/>
+
+</menu>
