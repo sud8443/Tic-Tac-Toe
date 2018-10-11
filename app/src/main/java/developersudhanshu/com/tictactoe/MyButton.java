@@ -1,13 +1,13 @@
 package developersudhanshu.com.tictactoe;
 
 import android.content.Context;
-import android.widget.Button;
+import android.support.v7.widget.AppCompatButton;
 
 /**
  * Created by Sudhanshu on 14-05-2018.
  */
 
-public class MyButton extends Button {
+public class MyButton extends AppCompatButton {
 
     private int player = 0;
 
