@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <item android:id="@+id/newGame"
-            android:title="New Game" />
+        <item android:id="@+id/newMultiPlayerGame"
+            android:title="New Multiplayer Game" />
+
+        <item android:id="@+id/newSinglePlayerGame"
+            android:title="New SinglePlayer Game" />
 
         <item android:id="@+id/boardSize3"
             android:title="Board Size 3"/>

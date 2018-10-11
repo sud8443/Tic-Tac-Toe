@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public final static int DRAW = 3;
     public final static int INCOMPLETE = 4;
     boolean player1Turn;
+    boolean singlePlayer;
     int textSize = 60;
     boolean gameOver = false;
 
@@ -74,8 +75,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.newGame){
+        if(id == R.id.newMultiPlayerGame){
             resetBoard();
+            singlePlayer = false;
+        }else if(id == R.id.newSinglePlayerGame){
+            resetBoard();
+            singlePlayer = true;
         }else if(id == R.id.boardSize3){
             n = 3;
             setUpBoard();
@@ -135,6 +140,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+        if(singlePlayer){
+            kiPlayNextTurn();
+        }
+
+    }
+
+    private void kiPlayNextTurn() {
+        int turnRowIndex = 0;
+        int turnColumnIndex = 3;
+
+        buttons[turnRowIndex][turnColumnIndex].setPlayer(PLAYER2);
+        buttons[turnRowIndex][turnColumnIndex].setText("X");
     }
 
     private int gameStatus() {
