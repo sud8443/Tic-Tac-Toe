@@ -7,5 +7,4 @@
     android:id="@+id/linear_layout_activity_main"
     android:orientation="vertical"
     tools:context="developersudhanshu.com.tictactoe.MainActivity">
-
 </LinearLayout>
