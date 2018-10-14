@@ -1,13 +1,19 @@
 package developersudhanshu.com.tictactoe;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -127,31 +133,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             b.setText("X");
         }
 
-        int status = gameStatus();
-        player1Turn = !player1Turn;
-
-        if(status == PLAYER1WINS || status == PLAYER2WINS){
-            Toast.makeText(this, "Player "+status+" wins ", Toast.LENGTH_SHORT).show();
-            gameOver = true;
+        checkGameOver(gameStatus());
+        if (gameOver)
             return;
-        }else if (status == DRAW){
-            Toast.makeText(this, " Draw", Toast.LENGTH_SHORT).show();
-            gameOver = true;
-            return;
-        }
 
-        if(singlePlayer){
-            kiPlayNextTurn();
-        }
+        if(singlePlayer) {
+            kiPlayNextTurn(buttons);
+
+            checkGameOver(gameStatus());
+        } else
+            player1Turn = !player1Turn;
 
     }
 
-    private void kiPlayNextTurn() {
-        int turnRowIndex = 0;
-        int turnColumnIndex = 3;
+    private void checkGameOver(int gameStatus) {
+        if(gameStatus == PLAYER1WINS || gameStatus == PLAYER2WINS){
+            Toast.makeText(this, "Player "+gameStatus+" wins ", Toast.LENGTH_SHORT).show();
+            gameOver = true;
+        }else if (gameStatus == DRAW){
+            Toast.makeText(this, " Draw", Toast.LENGTH_SHORT).show();
+            gameOver = true;
+        }
+    }
 
-        buttons[turnRowIndex][turnColumnIndex].setPlayer(PLAYER2);
+    private void kiPlayNextTurn(Button[][] buttons) {
+        List<Pair<Integer, Integer>> emptyButtons = getEmptyButtons(buttons);
+
+        // TODO: needs to be replaced with min-max algorithm
+        Random rnd = new Random();
+        int randomIndex = rnd.nextInt(emptyButtons.size());
+        Pair<Integer, Integer> coordinatesToPlace = emptyButtons.get(randomIndex);
+
+        int turnRowIndex = coordinatesToPlace.first;
+        int turnColumnIndex = coordinatesToPlace.second;
+        // END
+
+        ((MyButton)buttons[turnRowIndex][turnColumnIndex]).setPlayer(PLAYER2);
         buttons[turnRowIndex][turnColumnIndex].setText("X");
+    }
+
+    private List<Pair<Integer, Integer>> getEmptyButtons(Button[][] buttons) {
+        List<Pair<Integer, Integer>> emptyButtons = new ArrayList<>();
+
+        for (int i=0; i < n; i++) {
+            for (int j=0; j < n; j++) {
+                if (((MyButton) buttons[i][j]).getPlayer() == 0)
+                    emptyButtons.add(new Pair<>(i, j));
+            }
+        }
+
+        return emptyButtons;
     }
 
     private int gameStatus() {
