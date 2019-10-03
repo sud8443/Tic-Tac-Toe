@@ -6,7 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -15,6 +17,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout mainLayout;
     LinearLayout[] rows;
     MyButton buttons[][];
+    Button resetBtn;
+    TextView p1Score;
+    TextView p2Score;
     public final static int PLAYER1 = 1;
     public final static int PLAYER2 = 2;
     public final static int PLAYER1WINS = 1;
@@ -24,17 +29,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     boolean player1Turn;
     int textSize = 60;
     boolean gameOver = false;
+    ScoreKeeper scoreKeeper = new ScoreKeeper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mainLayout = findViewById(R.id.linear_layout_activity_main);
         setUpBoard();
-
     }
 
     private void setUpBoard() {
+        setContentView(R.layout.activity_main);
+        mainLayout = findViewById(R.id.linear_layout_activity_main);
 
         player1Turn = true;
         gameOver = false;
@@ -85,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(id == R.id.boardSize5){
             n = 5;
             setUpBoard();
+        } else if (id == R.id.scoreboard) {
+            showScoreboard();
         }
         return true;
     }
@@ -126,7 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1Turn = !player1Turn;
 
         if(status == PLAYER1WINS || status == PLAYER2WINS){
-            Toast.makeText(this, "Player "+status+" wins ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Player " + status + " wins." +
+                    "\nP1: " + scoreKeeper.getP1() + " P2: " + scoreKeeper.getP2(),
+                    Toast.LENGTH_SHORT).show();
             gameOver = true;
             return;
         }else if (status == DRAW){
@@ -150,8 +159,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             if(flag){
                 if(buttons[i][0].getPlayer() == PLAYER1){
+                    scoreKeeper.setP1(scoreKeeper.getP1()+1);
                     return PLAYER1WINS;
                 }else{
+                    scoreKeeper.setP2(scoreKeeper.getP2()+1);
                     return  PLAYER2WINS;
                 }
             }
@@ -168,8 +179,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             if(flag){
                 if(buttons[0][j].getPlayer() == PLAYER1){
+                    scoreKeeper.setP1(scoreKeeper.getP1()+1);
                     return PLAYER1WINS;
                 }else{
+                    scoreKeeper.setP2(scoreKeeper.getP2()+1);
                     return  PLAYER2WINS;
                 }
             }
@@ -184,8 +197,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(flag){
             if(buttons[0][0].getPlayer() == PLAYER1){
+                scoreKeeper.setP1(scoreKeeper.getP1()+1);
                 return PLAYER1WINS;
             }else{
+                scoreKeeper.setP2(scoreKeeper.getP2()+1);
                 return  PLAYER2WINS;
             }
         }
@@ -200,8 +215,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(flag){
             if(buttons[n-1][0].getPlayer() == PLAYER1){
+                scoreKeeper.setP1(scoreKeeper.getP1()+1);
                 return PLAYER1WINS;
             }else{
+                scoreKeeper.setP2(scoreKeeper.getP2()+1);
                 return  PLAYER2WINS;
             }
         }
@@ -217,4 +234,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return DRAW;
     }
+
+    private void showScoreboard() {
+        setContentView(R.layout.activity_scoreboard);
+        p1Score = findViewById(R.id.textView6);
+        p2Score = findViewById(R.id.textView7);
+        displayScore();
+
+        resetBtn = findViewById(R.id.button);
+        resetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scoreKeeper.resetScore();
+                displayScore();
+            }
+        });
+    }
+
+    private void displayScore() {
+        p1Score.setText("\t\tPlayer 1: " + scoreKeeper.getP1());
+        p2Score.setText("\t\tPlayer 2: " + scoreKeeper.getP2());
+    }
+
 }

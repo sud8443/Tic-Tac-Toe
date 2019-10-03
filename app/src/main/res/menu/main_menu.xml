@@ -13,4 +13,7 @@
         <item android:id="@+id/boardSize5"
             android:title="Board Size 5"/>
 
+        <item android:id="@+id/scoreboard"
+            android:title="Scoreboard"/>
+
 </menu>
